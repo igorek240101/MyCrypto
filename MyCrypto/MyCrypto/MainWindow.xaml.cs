@@ -25,6 +25,13 @@ namespace MyCrypto
     public partial class MainWindow : Window
     {
 
+        private static string uri;
+
+        static MainWindow()
+        {
+            uri = File.ReadAllText("config.txt");
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,12 +45,12 @@ namespace MyCrypto
             WebClient client = new WebClient();
             if (fileDialog.FileName.Split('.')[^1] == "txt")
             {
-                result.Text = Encoding.UTF8.GetString(client.UploadFile("https://localhost:5001/Crypto/Decrypt/" + Key.Text, fileDialog.FileName));
+                result.Text = Encoding.UTF8.GetString(client.UploadFile(uri + "/Crypto/Decrypt/" + Key.Text, fileDialog.FileName));
                 SaveBtn.IsEnabled = true;
             }
             else
             {
-                byte[] array = client.UploadFile("https://localhost:5001/Crypto/Decrypt/" + Key.Text, fileDialog.FileName);
+                byte[] array = client.UploadFile(uri + "/Crypto/Decrypt/" + Key.Text, fileDialog.FileName);
                 SaveFileDialog saveFile = new SaveFileDialog();
                 saveFile.Filter = "docx files (*.docs)|*.docx";
                 saveFile.ShowDialog();
@@ -63,12 +70,12 @@ namespace MyCrypto
             WebClient client = new WebClient();
             if (fileDialog.FileName.Split('.')[^1] == "txt")
             {
-                result.Text = Encoding.UTF8.GetString(client.UploadFile("https://localhost:5001/Crypto/Encrypt/" + Key.Text, fileDialog.FileName));
+                result.Text = Encoding.UTF8.GetString(client.UploadFile(uri + "/Crypto/Encrypt/" + Key.Text, fileDialog.FileName));
                 SaveBtn.IsEnabled = true;
             }
             else
             {
-                byte[] array = client.UploadFile("https://localhost:5001/Crypto/Encrypt/" + Key.Text, fileDialog.FileName);
+                byte[] array = client.UploadFile(uri + "/Crypto/Encrypt/" + Key.Text, fileDialog.FileName);
                 SaveFileDialog saveFile = new SaveFileDialog();
                 saveFile.Filter = "docx files (*.docs)|*.docx";
                 saveFile.ShowDialog();
